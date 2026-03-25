@@ -1,0 +1,78 @@
+name: Update Cask and Test
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  update-cask:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Extract version and sha256 from release
+        id: info
+        run: |
+          VERSION="${GITHUB_REF#refs/tags/v}"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+          # Download the tarball and compute sha256
+          gh release download "v${VERSION}" --pattern "*.tar.gz" --dir /tmp/release
+          SHA=$(shasum -a 256 /tmp/release/*.tar.gz | awk '{print $1}')
+          echo "sha256=$SHA" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
+          echo "SHA256: $SHA"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Update cask formula
+        run: |
+          VERSION="${{ steps.info.outputs.version }}"
+          SHA="${{ steps.info.outputs.sha256 }}"
+
+          cat > Casks/trustwise-cli.rb << 'TEMPLATE'
+cask "trustwise-cli" do
+  version "__VERSION__"
+
+  on_arm do
+    sha256 "__SHA256__"
+    url "https://github.com/trustwiseai/homebrew-tap/releases/download/v__VERSION__/trustwise-macos-arm64.tar.gz"
+  end
+
+  name "Trustwise CLI"
+  desc "AI Red-teaming and risk classification CLI"
+  homepage "https://trustwise.ai"
+
+  postflight do
+    system_command "/usr/bin/find",
+                   args: ["#{staged_path}", "-exec", "/usr/bin/xattr", "-c", "{}", ";"]
+  end
+
+  binary "trustwise/trustwise"
+end
+TEMPLATE
+
+          sed -i '' "s/__VERSION__/${VERSION}/g" Casks/trustwise-cli.rb
+          sed -i '' "s/__SHA256__/${SHA}/g" Casks/trustwise-cli.rb
+
+          echo "Updated cask:"
+          cat Casks/trustwise-cli.rb
+
+      - name: Test brew install
+        run: |
+          brew tap trustwiseai/tap "$(pwd)"
+          brew install --cask trustwise-cli
+          trustwise --version
+          echo "Homebrew install test passed"
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Casks/trustwise-cli.rb
+          git diff --cached --quiet || git commit -m "Update trustwise-cli to v${{ steps.info.outputs.version }}"
+          git push
