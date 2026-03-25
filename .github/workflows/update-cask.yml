@@ -34,30 +34,14 @@ jobs:
           VERSION="${{ steps.info.outputs.version }}"
           SHA="${{ steps.info.outputs.sha256 }}"
 
-          cat > Casks/trustwise-cli.rb << 'TEMPLATE'
-cask "trustwise-cli" do
-  version "__VERSION__"
+          # Get current version from cask file
+          OLD_VERSION=$(grep '  version "' Casks/trustwise-cli.rb | sed 's/.*version "\(.*\)"/\1/')
+          OLD_SHA=$(grep '    sha256 "' Casks/trustwise-cli.rb | sed 's/.*sha256 "\(.*\)"/\1/')
 
-  on_arm do
-    sha256 "__SHA256__"
-    url "https://github.com/trustwiseai/homebrew-tap/releases/download/v__VERSION__/trustwise-macos-arm64.tar.gz"
-  end
-
-  name "Trustwise CLI"
-  desc "AI Red-teaming and risk classification CLI"
-  homepage "https://trustwise.ai"
-
-  postflight do
-    system_command "/usr/bin/find",
-                   args: ["#{staged_path}", "-exec", "/usr/bin/xattr", "-c", "{}", ";"]
-  end
-
-  binary "trustwise/trustwise"
-end
-TEMPLATE
-
-          sed -i '' "s/__VERSION__/${VERSION}/g" Casks/trustwise-cli.rb
-          sed -i '' "s/__SHA256__/${SHA}/g" Casks/trustwise-cli.rb
+          # Replace version and sha256 in-place
+          sed -i '' "s|version \"${OLD_VERSION}\"|version \"${VERSION}\"|g" Casks/trustwise-cli.rb
+          sed -i '' "s|sha256 \"${OLD_SHA}\"|sha256 \"${SHA}\"|g" Casks/trustwise-cli.rb
+          sed -i '' "s|/v${OLD_VERSION}/|/v${VERSION}/|g" Casks/trustwise-cli.rb
 
           echo "Updated cask:"
           cat Casks/trustwise-cli.rb
