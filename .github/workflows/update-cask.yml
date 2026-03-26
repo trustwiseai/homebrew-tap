@@ -43,13 +43,12 @@ jobs:
           echo "Updated cask:"
           cat Casks/trustwise-cli.rb
 
-      - name: Test brew install from local checkout
+      - name: Test install from local cask
         run: |
-          # Tap from local directory — uses the updated cask file directly
-          brew tap --force trustwiseai/tap "$(pwd)"
-          brew install --cask trustwise-cli
+          # Install directly from the local cask file — no tap needed
+          brew install --cask Casks/trustwise-cli.rb
           trustwise --version
-          echo "Homebrew install test passed"
+          echo "Local install test passed"
 
       - name: Commit and push
         run: |
