@@ -43,13 +43,6 @@ jobs:
           echo "Updated cask:"
           cat Casks/trustwise-cli.rb
 
-      - name: Test install from local cask
-        run: |
-          # Install directly from the local cask file — no tap needed
-          brew install --cask Casks/trustwise-cli.rb
-          trustwise --version
-          echo "Local install test passed"
-
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
@@ -59,11 +52,16 @@ jobs:
           git push
 
       - name: Test remote install
+        id: test
         run: |
-          brew uninstall --cask trustwise-cli 2>/dev/null || true
-          brew untap trustwiseai/tap 2>/dev/null || true
-          brew cleanup -s 2>/dev/null || true
           brew tap trustwiseai/tap
           brew install --cask trustwise-cli
           trustwise --version
-          echo "Remote install test passed"
+          echo "Install test passed"
+
+      - name: Revert on test failure
+        if: failure() && steps.test.outcome == 'failure'
+        run: |
+          git revert HEAD --no-edit
+          git push
+          echo "Reverted cask update due to failed install test"
