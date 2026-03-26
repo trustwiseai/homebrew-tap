@@ -14,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: main
+          ref: test-publish
 
       - name: Extract version and sha256 from release
         id: info
