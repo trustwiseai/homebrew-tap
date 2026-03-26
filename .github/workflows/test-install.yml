@@ -1,0 +1,17 @@
+name: Test Brew Install
+
+on:
+  push:
+    branches: [main]
+    paths: ['Casks/**']
+
+jobs:
+  test:
+    runs-on: macos-latest
+    steps:
+      - name: Install from Homebrew
+        run: |
+          brew tap trustwiseai/tap
+          brew install --cask trustwise-cli
+          trustwise --version
+          echo "Install test passed"

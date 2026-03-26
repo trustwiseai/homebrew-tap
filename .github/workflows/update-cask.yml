@@ -1,4 +1,4 @@
-name: Update Cask and Test
+name: Update Cask
 
 on:
   release:
@@ -6,10 +6,11 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
-  update-cask:
-    runs-on: macos-latest
+  create-pr:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,32 +39,32 @@ jobs:
           OLD_VERSION=$(grep '  version "' Casks/trustwise-cli.rb | sed 's/.*version "\(.*\)"/\1/')
           OLD_SHA=$(grep '    sha256 "' Casks/trustwise-cli.rb | sed 's/.*sha256 "\(.*\)"/\1/')
 
-          sed -i '' "s|version \"${OLD_VERSION}\"|version \"${VERSION}\"|g" Casks/trustwise-cli.rb
-          sed -i '' "s|sha256 \"${OLD_SHA}\"|sha256 \"${SHA}\"|g" Casks/trustwise-cli.rb
-          sed -i '' "s|/v${OLD_VERSION}/|/v${VERSION}/|g" Casks/trustwise-cli.rb
+          sed -i "s|version \"${OLD_VERSION}\"|version \"${VERSION}\"|g" Casks/trustwise-cli.rb
+          sed -i "s|sha256 \"${OLD_SHA}\"|sha256 \"${SHA}\"|g" Casks/trustwise-cli.rb
+          sed -i "s|/v${OLD_VERSION}/|/v${VERSION}/|g" Casks/trustwise-cli.rb
 
           echo "Updated cask:"
           cat Casks/trustwise-cli.rb
 
-      - name: Commit and push
+      - name: Create PR
         run: |
+          VERSION="${{ steps.info.outputs.version }}"
+          BRANCH="update-cask-v${VERSION}"
+
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
           git add Casks/trustwise-cli.rb
-          git diff --cached --quiet || git commit -m "Update trustwise-cli to v${{ steps.info.outputs.version }}"
-          git push
+          git diff --cached --quiet && echo "No changes" && exit 0
+          git commit -m "Update trustwise-cli to v${VERSION}"
+          git push origin "$BRANCH"
 
-      - name: Test remote install
-        id: test
-        run: |
-          brew tap trustwiseai/tap
-          brew install --cask trustwise-cli
-          trustwise --version
-          echo "Install test passed"
+          gh pr create \
+            --base main \
+            --head "$BRANCH" \
+            --title "Update trustwise-cli to v${VERSION}" \
+            --body "Automated update from CLI release v${VERSION}
 
-      - name: Revert on test failure
-        if: failure() && steps.test.outcome == 'failure'
-        run: |
-          git revert HEAD --no-edit
-          git push
-          echo "Reverted cask update due to failed install test"
+          SHA256: ${{ steps.info.outputs.sha256 }}"
+        env:
+          GH_TOKEN: ${{ github.token }}
