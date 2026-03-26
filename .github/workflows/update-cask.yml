@@ -1,0 +1,69 @@
+name: Update Cask and Test
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  update-cask:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Extract version and sha256 from release
+        id: info
+        run: |
+          VERSION="${GITHUB_REF#refs/tags/v}"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+          gh release download "v${VERSION}" --pattern "*.tar.gz" --dir /tmp/release
+          SHA=$(shasum -a 256 /tmp/release/*.tar.gz | awk '{print $1}')
+          echo "sha256=$SHA" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
+          echo "SHA256: $SHA"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Update cask formula
+        run: |
+          VERSION="${{ steps.info.outputs.version }}"
+          SHA="${{ steps.info.outputs.sha256 }}"
+
+          OLD_VERSION=$(grep '  version "' Casks/trustwise-cli.rb | sed 's/.*version "\(.*\)"/\1/')
+          OLD_SHA=$(grep '    sha256 "' Casks/trustwise-cli.rb | sed 's/.*sha256 "\(.*\)"/\1/')
+
+          sed -i '' "s|version \"${OLD_VERSION}\"|version \"${VERSION}\"|g" Casks/trustwise-cli.rb
+          sed -i '' "s|sha256 \"${OLD_SHA}\"|sha256 \"${SHA}\"|g" Casks/trustwise-cli.rb
+          sed -i '' "s|/v${OLD_VERSION}/|/v${VERSION}/|g" Casks/trustwise-cli.rb
+
+          echo "Updated cask:"
+          cat Casks/trustwise-cli.rb
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Casks/trustwise-cli.rb
+          git diff --cached --quiet || git commit -m "Update trustwise-cli to v${{ steps.info.outputs.version }}"
+          git push
+
+      - name: Test remote install
+        id: test
+        run: |
+          brew tap trustwiseai/tap
+          brew install --cask trustwise-cli
+          trustwise --version
+          echo "Install test passed"
+
+      - name: Revert on test failure
+        if: failure() && steps.test.outcome == 'failure'
+        run: |
+          git revert HEAD --no-edit
+          git push
+          echo "Reverted cask update due to failed install test"
