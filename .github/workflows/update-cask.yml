@@ -48,8 +48,10 @@ jobs:
 
       - name: Test brew install
         run: |
+          brew cleanup -s 2>/dev/null || true
+          brew untap trustwiseai/tap 2>/dev/null || true
           brew tap trustwiseai/tap "$(pwd)"
-          brew install --cask trustwise-cli
+          brew install --cask trustwise-cli --force
           trustwise --version
           echo "Homebrew install test passed"
 
