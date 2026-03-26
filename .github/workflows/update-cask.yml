@@ -20,7 +20,6 @@ jobs:
           VERSION="${GITHUB_REF#refs/tags/v}"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-          # Download the tarball and compute sha256
           gh release download "v${VERSION}" --pattern "*.tar.gz" --dir /tmp/release
           SHA=$(shasum -a 256 /tmp/release/*.tar.gz | awk '{print $1}')
           echo "sha256=$SHA" >> $GITHUB_OUTPUT
@@ -34,11 +33,9 @@ jobs:
           VERSION="${{ steps.info.outputs.version }}"
           SHA="${{ steps.info.outputs.sha256 }}"
 
-          # Get current version from cask file
           OLD_VERSION=$(grep '  version "' Casks/trustwise-cli.rb | sed 's/.*version "\(.*\)"/\1/')
           OLD_SHA=$(grep '    sha256 "' Casks/trustwise-cli.rb | sed 's/.*sha256 "\(.*\)"/\1/')
 
-          # Replace version and sha256 in-place
           sed -i '' "s|version \"${OLD_VERSION}\"|version \"${VERSION}\"|g" Casks/trustwise-cli.rb
           sed -i '' "s|sha256 \"${OLD_SHA}\"|sha256 \"${SHA}\"|g" Casks/trustwise-cli.rb
           sed -i '' "s|/v${OLD_VERSION}/|/v${VERSION}/|g" Casks/trustwise-cli.rb
@@ -46,12 +43,11 @@ jobs:
           echo "Updated cask:"
           cat Casks/trustwise-cli.rb
 
-      - name: Test brew install
+      - name: Test brew install from local checkout
         run: |
-          brew cleanup -s 2>/dev/null || true
-          brew untap trustwiseai/tap 2>/dev/null || true
-          brew tap trustwiseai/tap "$(pwd)"
-          brew install --cask trustwise-cli --force
+          # Tap from local directory — uses the updated cask file directly
+          brew tap --force trustwiseai/tap "$(pwd)"
+          brew install --cask trustwise-cli
           trustwise --version
           echo "Homebrew install test passed"
 
@@ -62,3 +58,13 @@ jobs:
           git add Casks/trustwise-cli.rb
           git diff --cached --quiet || git commit -m "Update trustwise-cli to v${{ steps.info.outputs.version }}"
           git push
+
+      - name: Test remote install
+        run: |
+          brew uninstall --cask trustwise-cli 2>/dev/null || true
+          brew untap trustwiseai/tap 2>/dev/null || true
+          brew cleanup -s 2>/dev/null || true
+          brew tap trustwiseai/tap
+          brew install --cask trustwise-cli
+          trustwise --version
+          echo "Remote install test passed"
