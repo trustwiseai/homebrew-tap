@@ -23,8 +23,8 @@ jobs:
           VERSION="${GITHUB_REF#refs/tags/v}"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-          gh release download "v${VERSION}" --pattern "*.tar.gz" --dir /tmp/release
-          SHA=$(shasum -a 256 /tmp/release/*.tar.gz | awk '{print $1}')
+          gh release download "v${VERSION}" --pattern "trustwise-macos-arm64.tar.gz" --dir /tmp/release
+          SHA=$(shasum -a 256 /tmp/release/trustwise-macos-arm64.tar.gz | awk '{print $1}')
           echo "sha256=$SHA" >> $GITHUB_OUTPUT
           echo "Version: $VERSION"
           echo "SHA256: $SHA"
