@@ -1,0 +1,131 @@
+Trustwise, Inc. — Proprietary Software License
+
+Copyright (c) 2024-2026 Trustwise, Inc. All rights reserved.
+
+NOTICE: This software and all associated documentation, binary artifacts,
+SDKs, libraries, configuration files, and related materials (collectively,
+the "Licensed Materials") are the proprietary and confidential property of
+Trustwise, Inc. ("Trustwise").
+
+────────────────────────────────────────────────────────────────────────────
+1. LICENSE GRANT
+────────────────────────────────────────────────────────────────────────────
+
+Subject to a fully executed SDK & Binary Artifacts License Agreement (the
+"Agreement") between Trustwise and the authorized licensee, Trustwise grants
+a limited, non-exclusive, non-transferable, non-sublicensable, revocable
+license to use the Licensed Materials solely for the purposes and within the
+scope defined in the Agreement.
+
+Possession of these files does NOT constitute a license to use, copy, modify,
+or distribute the Licensed Materials. A valid, signed Agreement is required.
+
+────────────────────────────────────────────────────────────────────────────
+2. RESTRICTIONS
+────────────────────────────────────────────────────────────────────────────
+
+You may NOT, and may not permit any third party to:
+
+  (a) Reverse engineer, decompile, disassemble, or otherwise attempt to
+      derive the source code, algorithms, data structures, or underlying
+      architecture of the Licensed Materials, in whole or in part;
+
+  (b) Copy, reproduce, distribute, publish, display, transmit, or make
+      available the Licensed Materials to any third party;
+
+  (c) Modify, adapt, translate, or create derivative works based upon the
+      Licensed Materials;
+
+  (d) Sublicense, lease, rent, loan, sell, resell, assign, or transfer the
+      Licensed Materials or any rights therein;
+
+  (e) Remove, alter, or obscure any proprietary notices, labels, watermarks,
+      or digital rights management mechanisms;
+
+  (f) Use the Licensed Materials for benchmarking, competitive analysis, or
+      to develop any competing product or service;
+
+  (g) Incorporate the Licensed Materials into any open-source project or
+      distribute them under any open-source license;
+
+  (h) Circumvent, disable, or interfere with any license key, access
+      control, usage tracking, or metering mechanism;
+
+  (i) Use automated tools to extract, scrape, harvest, or mine data,
+      models, weights, or parameters from the Licensed Materials;
+
+  (j) Deploy the Licensed Materials in any environment not expressly
+      authorized under the Agreement.
+
+────────────────────────────────────────────────────────────────────────────
+3. INTELLECTUAL PROPERTY
+────────────────────────────────────────────────────────────────────────────
+
+Trustwise retains all right, title, and interest in and to the Licensed
+Materials, including all patents, copyrights, trade secrets, trademarks,
+and other intellectual property rights. Nothing herein transfers any
+ownership interest to you. All rights not expressly granted are reserved.
+
+────────────────────────────────────────────────────────────────────────────
+4. CONFIDENTIALITY
+────────────────────────────────────────────────────────────────────────────
+
+The Licensed Materials constitute valuable trade secrets and confidential
+information of Trustwise. You shall protect the Licensed Materials using at
+least the same degree of care you use for your own most sensitive
+confidential information, but no less than reasonable care. Confidentiality
+obligations survive termination for five (5) years or for so long as the
+information remains a trade secret, whichever is longer.
+
+────────────────────────────────────────────────────────────────────────────
+5. NO WARRANTY
+────────────────────────────────────────────────────────────────────────────
+
+THE LICENSED MATERIALS ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND
+NON-INFRINGEMENT. TRUSTWISE DOES NOT WARRANT THAT THE LICENSED MATERIALS
+WILL BE UNINTERRUPTED, ERROR-FREE, OR FREE OF HARMFUL COMPONENTS.
+
+────────────────────────────────────────────────────────────────────────────
+6. LIMITATION OF LIABILITY
+────────────────────────────────────────────────────────────────────────────
+
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT SHALL TRUSTWISE BE
+LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, PUNITIVE, OR
+EXEMPLARY DAMAGES ARISING OUT OF OR IN CONNECTION WITH THE LICENSED
+MATERIALS. TRUSTWISE'S TOTAL LIABILITY SHALL NOT EXCEED THE FEES PAID BY
+YOU UNDER THE AGREEMENT IN THE TWELVE (12) MONTHS PRECEDING THE CLAIM.
+
+────────────────────────────────────────────────────────────────────────────
+7. TERMINATION
+────────────────────────────────────────────────────────────────────────────
+
+Any unauthorized use automatically terminates any license granted. Upon
+termination, you must immediately cease all use and permanently destroy
+all copies of the Licensed Materials in any format, including backups and
+cached copies.
+
+────────────────────────────────────────────────────────────────────────────
+8. GOVERNING LAW
+────────────────────────────────────────────────────────────────────────────
+
+This license shall be governed by the laws of the State of Texas, without
+regard to conflict of laws provisions. Any disputes shall be resolved
+exclusively in the courts located in Travis County, Texas.
+
+────────────────────────────────────────────────────────────────────────────
+9. CONTACT
+────────────────────────────────────────────────────────────────────────────
+
+For licensing inquiries, contact:
+
+  Trustwise, Inc.
+  Austin, TX
+  contact@trustwise.ai
+  https://trustwise.ai
+
+────────────────────────────────────────────────────────────────────────────
+
+Third-party software notices, if applicable, are listed in the NOTICE file
+distributed alongside this LICENSE file.
