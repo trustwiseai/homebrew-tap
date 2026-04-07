@@ -1,0 +1,241 @@
+Trustwise, Inc. — CLI & Binary Artifacts License Agreement
+Version 1.0 — April 2026
+
+Copyright (c) 2024-2026 Trustwise, Inc. All rights reserved.
+
+================================================================================
+
+IMPORTANT: This License Agreement governs your use of the Trustwise CLI tool,
+including all binary artifacts, runtime libraries, plugins, configuration
+files, documentation, and related materials (the "CLI Tool"). By downloading,
+installing, or using the CLI Tool, you accept this Agreement. If you do not
+agree, do not use the CLI Tool.
+
+================================================================================
+
+1. DEFINITIONS
+================================================================================
+
+"CLI Tool" means the Trustwise command-line application and all associated
+binary artifacts, runtime libraries, plugins, templates, and documentation
+distributed by Trustwise.
+
+"Internal Components" means the compiled binaries, object code, algorithms,
+data structures, models, weights, and underlying architecture of the CLI Tool.
+
+"Authorized Environment" means any computing environment operated by or on
+behalf of You, including but not limited to local workstations, cloud virtual
+machines, containers, CI/CD runners (e.g., GitHub Actions, GitLab CI, Jenkins,
+CircleCI), and ephemeral build environments.
+
+"Automation Artifacts" means scripts, configuration files, Dockerfiles, CI/CD
+pipeline definitions, Makefiles, and similar files that invoke or reference the
+CLI Tool.
+
+"You" (or "Your") means the individual or legal entity exercising rights under
+this Agreement.
+
+================================================================================
+
+2. LICENSE GRANT
+================================================================================
+
+2.1 CLI Usage Rights
+
+Subject to this Agreement, Trustwise grants You a limited, non-exclusive,
+non-transferable, royalty-free license to:
+
+  (a) Install and execute the CLI Tool on any Authorized Environment;
+
+  (b) Invoke CLI Tool commands from scripts, pipelines, automation tools, and
+      other software;
+
+  (c) Create Automation Artifacts that reference, call, or orchestrate the
+      CLI Tool, and distribute such Automation Artifacts freely, including in
+      open-source repositories;
+
+  (d) Use CLI Tool output (reports, scores, classifications, logs) without
+      restriction in Your own products, documentation, and compliance records.
+
+2.2 No License to Internal Components
+
+This Agreement does NOT grant any right to access, modify, or distribute the
+Internal Components except as necessarily executed through normal invocation of
+the CLI Tool's documented commands and flags.
+
+================================================================================
+
+3. RESTRICTIONS
+================================================================================
+
+3.1 Reverse Engineering Prohibition
+
+You may NOT, and may not permit any third party to:
+
+  (a) Reverse engineer, decompile, disassemble, or otherwise attempt to derive
+      the source code, algorithms, data structures, or underlying architecture
+      of the Internal Components;
+
+  (b) Use automated tools to extract, scrape, harvest, or mine data, models,
+      weights, or parameters from the Internal Components;
+
+  (c) Circumvent, disable, or interfere with any license key, access control,
+      usage tracking, obfuscation, or metering mechanism in the CLI Tool.
+
+This prohibition applies to the fullest extent permitted by applicable law.
+Where applicable law grants a non-waivable right to decompile for
+interoperability purposes (e.g., EU Software Directive, Article 6), such
+decompilation is permitted solely to the extent required to achieve
+interoperability with independently created software, provided You first
+request interoperability information from Trustwise and Trustwise has not made
+such information readily available.
+
+3.2 General Restrictions
+
+You may NOT:
+
+  (a) Redistribute the CLI Tool binary or runtime files as a standalone
+      download, package, or toolkit separate from an Authorized Environment
+      under Your control;
+
+  (b) Use the CLI Tool to develop any product or service that competes with
+      the CLI Tool itself or Trustwise's core platform;
+
+  (c) Sublicense, lease, rent, loan, sell, or assign the CLI Tool or any
+      rights therein to a third party, except that You may permit Your
+      contractors, consultants, and managed service providers to execute the
+      CLI Tool solely on Your behalf and under Your account;
+
+  (d) Remove, alter, or obscure any proprietary notices, labels, or watermarks;
+
+  (e) Bundle the CLI Tool binary inside a container image, installer, or
+      archive that is published to a public registry or download site;
+      however, You may build private container images that include the CLI
+      Tool for use within Your Authorized Environments.
+
+3.3 What Is Permitted
+
+For clarity, the following activities are expressly permitted:
+
+  (a) Installing the CLI Tool on ephemeral CI/CD runners, cloud VMs,
+      containers, and other transient compute environments;
+
+  (b) Writing and sharing shell scripts, Dockerfiles, GitHub Actions
+      workflows, Makefiles, and pipeline configurations that invoke CLI Tool
+      commands, including in public and open-source repositories;
+
+  (c) Using the CLI Tool as a step in automated testing, red-teaming,
+      risk-classification, and compliance pipelines;
+
+  (d) Profiling and benchmarking the CLI Tool's performance and publishing
+      such benchmarks provided they are accurate and conducted in good faith;
+
+  (e) Examining and using CLI Tool output, logs, error messages, and
+      diagnostic information without restriction;
+
+  (f) Referencing CLI Tool commands, flags, and usage patterns in public
+      documentation, blog posts, and technical discussions.
+
+================================================================================
+
+4. INTELLECTUAL PROPERTY
+================================================================================
+
+Trustwise retains all right, title, and interest in and to the CLI Tool,
+including all patents, copyrights, trade secrets, trademarks, and other
+intellectual property rights. This Agreement does not transfer any ownership
+interest to You.
+
+You retain all right, title, and interest in Your Automation Artifacts and
+any output produced by the CLI Tool. Nothing in this Agreement restricts Your
+rights in Your own original work.
+
+Patent Retaliation: If You initiate a patent infringement claim against
+Trustwise alleging that the CLI Tool infringes Your patent(s), all licenses
+granted to You under this Agreement terminate automatically as of the date
+such claim is filed.
+
+================================================================================
+
+5. CONFIDENTIALITY
+================================================================================
+
+The Internal Components constitute confidential information of Trustwise. You
+shall protect Internal Components using reasonable care. CLI Tool commands,
+flags, output formats, documentation, and usage patterns are NOT confidential
+and may be discussed freely.
+
+Confidentiality obligations survive termination for three (3) years or for so
+long as the Internal Components remain trade secrets, whichever is longer.
+
+================================================================================
+
+6. DATA COLLECTION AND PRIVACY
+================================================================================
+
+The CLI Tool may collect anonymized usage telemetry (e.g., command frequency,
+error rates, CLI version) to improve the service. No personally identifiable
+information is collected through the CLI Tool. Telemetry may be disabled via
+CLI configuration as documented.
+
+================================================================================
+
+7. NO WARRANTY
+================================================================================
+
+THE CLI TOOL IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT. TRUSTWISE DOES
+NOT WARRANT THAT THE CLI TOOL WILL BE UNINTERRUPTED, ERROR-FREE, OR FREE OF
+HARMFUL COMPONENTS.
+
+================================================================================
+
+8. LIMITATION OF LIABILITY
+================================================================================
+
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT SHALL TRUSTWISE BE LIABLE
+FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, PUNITIVE, OR EXEMPLARY
+DAMAGES ARISING OUT OF OR IN CONNECTION WITH THE CLI TOOL. TRUSTWISE'S TOTAL
+LIABILITY SHALL NOT EXCEED THE FEES PAID BY YOU UNDER ANY RELATED SERVICES
+AGREEMENT IN THE TWELVE (12) MONTHS PRECEDING THE CLAIM, OR ONE HUNDRED U.S.
+DOLLARS ($100), WHICHEVER IS GREATER.
+
+================================================================================
+
+9. TERMINATION
+================================================================================
+
+Either party may terminate this Agreement at any time with thirty (30) days'
+written notice. Trustwise may terminate immediately upon Your material breach
+of this Agreement.
+
+Upon termination, You must cease all use of the CLI Tool and destroy all
+copies in any format, including copies on CI/CD systems, container images,
+and local machines.
+
+================================================================================
+
+10. GOVERNING LAW
+================================================================================
+
+This Agreement shall be governed by the laws of the State of Texas, without
+regard to conflict of laws provisions. Any disputes shall be resolved
+exclusively in the courts located in Travis County, Texas.
+
+================================================================================
+
+11. CONTACT
+================================================================================
+
+For licensing inquiries, contact:
+
+  Trustwise, Inc.
+  Austin, TX
+  contact@trustwise.ai
+  https://trustwise.ai
+
+================================================================================
+
+Third-party software notices, if applicable, are listed in the NOTICE file
+distributed alongside this LICENSE file.
