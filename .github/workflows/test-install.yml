@@ -12,6 +12,8 @@ jobs:
       - name: Install from Homebrew
         run: |
           brew tap trustwiseai/tap
+          # Homebrew 6.0.0+ requires explicit trust for non-official taps.
+          brew trust trustwiseai/tap
           brew install --cask trustwise-cli
           trustwise --version
           echo "Install test passed"
