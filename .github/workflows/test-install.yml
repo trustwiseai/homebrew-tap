@@ -16,4 +16,17 @@ jobs:
           brew trust trustwiseai/tap
           brew install --cask trustwise-cli
           trustwise --version
-          echo "Install test passed"
+          echo "Rolling install test passed"
+
+      - name: Install pinned series cask
+        run: |
+          # Newest pinned cask in the tap, e.g. trustwise-cli@4.7
+          TAP_DIR="$(brew --repository trustwiseai/tap)"
+          PINNED=$(basename "$(ls "$TAP_DIR"/Casks/trustwise-cli@*.rb | sort -V | tail -1)" .rb)
+          echo "Testing pinned cask: ${PINNED}"
+
+          # Pinned casks conflict_with the rolling one by design.
+          brew uninstall --cask trustwise-cli
+          brew install --cask "$PINNED"
+          trustwise --version
+          echo "Pinned install test passed"

@@ -21,11 +21,11 @@ jobs:
         id: info
         run: |
           VERSION="${GITHUB_REF#refs/tags/v}"
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
           gh release download "v${VERSION}" --pattern "trustwise-macos-arm64.tar.gz" --dir /tmp/release
           SHA=$(shasum -a 256 /tmp/release/trustwise-macos-arm64.tar.gz | awk '{print $1}')
-          echo "sha256=$SHA" >> $GITHUB_OUTPUT
+          echo "sha256=$SHA" >> "$GITHUB_OUTPUT"
           echo "Version: $VERSION"
           echo "SHA256: $SHA"
         env:
@@ -41,30 +41,54 @@ jobs:
 
           sed -i "s|version \"${OLD_VERSION}\"|version \"${VERSION}\"|g" Casks/trustwise-cli.rb
           sed -i "s|sha256 \"${OLD_SHA}\"|sha256 \"${SHA}\"|g" Casks/trustwise-cli.rb
-          sed -i "s|/v${OLD_VERSION}/|/v${VERSION}/|g" Casks/trustwise-cli.rb
 
           echo "Updated cask:"
           cat Casks/trustwise-cli.rb
+
+      - name: Generate pinned cask for this release series
+        id: pinned
+        run: |
+          VERSION="${{ steps.info.outputs.version }}"
+          SHA="${{ steps.info.outputs.sha256 }}"
+
+          # Writes Casks/trustwise-cli@<major.minor>.rb, or skips for prereleases.
+          OUT=$(./scripts/gen-versioned-cask.sh "$VERSION" "$SHA")
+          echo "path=$OUT" >> "$GITHUB_OUTPUT"
+          if [ -n "$OUT" ]; then
+            echo "Generated pinned cask:"
+            cat "$OUT"
+          fi
 
       - name: Create PR
         run: |
           VERSION="${{ steps.info.outputs.version }}"
           BRANCH="update-cask-v${VERSION}"
 
+          SERIES=$(echo "$VERSION" | grep -oE '^[0-9]+\.[0-9]+')
+
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout -b "$BRANCH"
-          git add Casks/trustwise-cli.rb
+          git add Casks
           git diff --cached --quiet && echo "No changes" && exit 0
           git commit -m "Update trustwise-cli to v${VERSION}"
           git push origin "$BRANCH"
+
+          BODY="Automated update from CLI release v${VERSION}
+
+          - \`trustwise-cli\` (rolling) -> ${VERSION}"
+          if [ -n "${{ steps.pinned.outputs.path }}" ]; then
+            BODY="${BODY}
+          - \`trustwise-cli@${SERIES}\` (pinned series) -> ${VERSION}"
+          fi
+          BODY="${BODY}
+
+          SHA256: ${{ steps.info.outputs.sha256 }}"
 
           gh pr create \
             --base main \
             --head "$BRANCH" \
             --title "Update trustwise-cli to v${VERSION}" \
-            --body "Automated update from CLI release v${VERSION}
-
-          SHA256: ${{ steps.info.outputs.sha256 }}"
+            --body "$BODY"
         env:
           GH_TOKEN: ${{ github.token }}
