@@ -1,4 +1,4 @@
-cask "trustwise-cli" do
+cask "trustwise-cli@4.10" do
   version "4.10.0"
 
   on_arm do
@@ -9,6 +9,8 @@ cask "trustwise-cli" do
   name "Trustwise CLI"
   desc "AI Red-teaming and risk classification CLI"
   homepage "https://trustwise.ai"
+
+  conflicts_with cask: "trustwise-cli"
 
   postflight do
     system_command "/usr/bin/find",
