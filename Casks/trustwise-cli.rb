@@ -1,8 +1,8 @@
 cask "trustwise-cli" do
-  version "4.11.0"
+  version "4.14.0"
 
   on_arm do
-    sha256 "eddda3d8eabf393128158e7873929bc106770ca33d265215083ddfc37bbc4aac"
+    sha256 "08e1e3ad5f5685111dd33fb11a70c3a4775a981acacec1c3ce4555de048b39d6"
     url "https://github.com/trustwiseai/homebrew-tap/releases/download/v#{version}/trustwise-macos-arm64.tar.gz"
   end
 
